@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="./style.css">
 </head>
 <body id="body" class="relative">
     <header class="bg-[#6200ea] flex justify-between h-[60px]">
@@ -37,8 +38,9 @@
     </table>
     <div class="p-5 absolute top-0 right-0 left-0 backdrop-blur w-full h-screen flex items-center justify-center hidden" id="modal">
         <div id="back" class="w-full h-screen absolute"></div>
-        <div class="flex flex-col p-10 bg-[#dec7ff] rounded-lg w-1/3 z-10" >
+        <div class="flex flex-col p-10  bg-[#dec7ff] rounded-lg w-1/3 z-10" id="form">
         <div class="flex flex-col">
+        <p class="hidden self-center text-[30px] text-red-600" id="formAlert">Please fill in all inputs!</p>
         <label for="name">Task Name :</label>
         <input name="name" type="text" class="border mb-4 w-full h-[50px] rounded-lg outline-none pl-[10px]" id="nameInp">
         <label for="task">task :</label>
@@ -48,7 +50,7 @@
                 <label for="select">Priority :</label>
                 <select name="select" id="Priority" class="border mb-4 rounded-md outline-none">
                     <option value="default" selected hidden>select</option>
-                    <option value="Low" class="bg-gray-400">Low</option>
+                    <option value="Low" class="bg-gray-200">Low</option>
                     <option value="Medium" class="bg-[#ffc107]" >Medium</option>
                     <option value="High" class="bg-[#dc3545]">High</option>
                 </select>
@@ -66,7 +68,7 @@
             <label for="name2">Deadline</label>
             <input name="name2" type="date" class="border rounded-md outline-none" value="none" id="date">
         </div>
-        <button type="submit" class="w-1/2 bg-[#6200ea] border p-2 text-center rounded-lg text-white m-auto mt-5" id="addBtn">Submit</button>
+        <button type="submit" class="w-1/2 bg-[#6200ea] border p-2 text-center rounded-lg text-white m-auto mt-5" id="addBtn" onclick="addTask()">Submit</button>
     </div>
 </div>
 
@@ -103,7 +105,7 @@
 </div>
 <div class="p-5 absolute top-0 right-0 left-0 backdrop-blur w-full h-screen flex items-center justify-center hidden" id="readTaskBox">
     <div class="w-full h-screen absolute" id="CloseReading"></div>
-    <div class="bg-gray-400 w-[50%]  flex flex-col gap-5  p-10 rounded-[20px]">
+    <div class="bg-[#dec7ff] w-[50%]  flex flex-col gap-5  p-10 rounded-[20px]">
         <h2 class="text-[40px] self-start" id="ReadingTaskName"></h2>
         <p id="ReadingTaskValue" class="break-words"></p>
             <p id="ReadingTaskPriority"></p>
@@ -117,6 +119,3 @@
 <script src="./script.js"></script>
 </body>
 </html>
-
-
-
