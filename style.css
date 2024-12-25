@@ -1,3 +1,14 @@
 #formAlert{
     text-shadow: 4px 2px 5px rgba(0,0,0,0.44);
 }
+#sort-box{
+    transition: transform 0.3s ease;
+    transform: translateX(100%);
+}
+#sort-box.visible {
+    transform: translateX(0);
+    right: 10px;
+  }
+body{
+    overflow: hidden;
+}

@@ -12,6 +12,8 @@ const table = document.getElementById("table-body");
 const editModal = document.getElementById("edit");
 const form = document.getElementById("form");
 const formAlert = document.getElementById("formAlert");
+const filter = document.getElementById("filterIcon") 
+const sortBox = document.getElementById("sort-box")
 
 const baseURL = `https://675f29cb1f7ad2426997bda6.mockapi.io/amirSalan`;
 
@@ -32,6 +34,7 @@ function addTask() {
   const PriorityValue = Priority.value;
   const StatusValue = Status.value;
   const dateValue = date.value;
+  const taskDate = Date.now()
   if (
     taskNameValue &&
     taskValue &&
@@ -48,6 +51,7 @@ function addTask() {
         Priority: PriorityValue,
         Status: StatusValue,
         deadline: dateValue,
+        date : taskDate
       }),
     }).then(() => {
       modal.classList.add("hidden");
@@ -82,12 +86,47 @@ function addTask() {
 }
 
 document.getElementById("loading").classList.remove("hidden");
+
+filterIcon.addEventListener("click", () => {
+  const sortBox = document.querySelector("#sort-box");
+  sortBox.classList.remove("hidden")
+  sortBox.classList.toggle("visible");
+});
+
+function closeSort() {
+  sortBox.classList.toggle('visible')
+}
 async function CreateTable() {
   try {
     table.innerHTML = "";
     const response = await fetch(`${baseURL}/user`);
     const result = await response.json();
-    result.forEach((item) => {
+
+    const selectOption = document.querySelector('input[name="sort"]:checked')
+
+    let tasks = await result ?? []
+
+    switch (selectOption.id) {
+    case "sortByDate-Oldest":
+      tasks.sort((a, b) => new Date(a.date) - new Date(b.date));
+      break;
+    case "sortByDate-Newest":
+      tasks.sort((a, b) => new Date(b.date) - new Date(a.date));
+      break;
+    case "sortByTodo":
+      tasks = tasks.filter((task) => task.Status === "Todo");
+      break;
+    case "sortByDoing":
+      tasks = tasks.filter((task) => task.Status === "Doing");
+      break;
+    case "sortByDone":
+      tasks = tasks.filter((task) => task.Status === "Done");
+      break;
+  }
+
+  console.log(tasks);
+
+    tasks.forEach((item) => {
       table.innerHTML += `<tr>
     <td class="border p-2">${item.taskName}</td>
     <td class="border p-2 text-center" id="pri"><div class="${styling(
@@ -111,8 +150,8 @@ async function CreateTable() {
         }" onclick="read(${item.id})"=>
     </td>
 </tr>`;
-      document.getElementById("loading").classList.add("hidden");
-    });
+});
+document.getElementById("loading").classList.add("hidden");
   } catch {}
 }
 

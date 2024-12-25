@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="./style.css">
 </head>
 <body id="body" class="relative">
-    <header class="bg-[#6200ea] flex justify-between h-[60px]">
+    <header class="bg-[#6200ea] flex justify-between h-[60px] relative">
         <div class=" flex items-center content-center justify-center">
             <img src="./assets/images/hamburger-icone.png" alt="hamburger-icon" class="w-[50px] h-[50px] cursor-pointer ">
             <h2 class="text-white items-center content-center text-lg" >My To-Do Tasks</h2>
@@ -18,8 +18,31 @@
                 <img src="./assets/images/search-icone.png" alt="" class="w-[30px] m-1">
                 <input type="text" placeholder="Search" class="bg-[#7926ed] outline-none text-white">
             </div>
-            <img src="./assets/images/filtrer-icone.png" alt="Filter-Icon" class="w-[30px] h-[30px] cursor-pointer">
+            <img src="./assets/images/filtrer-icone.png" alt="Filter-Icon" class="w-[30px] h-[30px] cursor-pointer" id="filterIcon">
             <img src="./assets/images/add-icone.png" alt="add-icon" class="w-[30px] h-[30px] cursor-pointer" id="add">
+        </div>
+        <div class="absolute bg-[#dec7ff] p-5 flex flex-col rounded-lg top-[68px] right-[-0px]" id="sort-box">
+            <label for="sortByDate-Oldest">
+                By Oldest tasks
+                <input type="radio" name="sort" id="sortByDate-Oldest" checked>
+            </label>
+            <label for="sortByDate-Newest">
+                By Newest tasks
+                <input type="radio" name="sort" id="sortByDate-Newest">
+            </label>
+            <label for="sortByTodo">
+                By ToDo Tasks
+                <input type="radio" name="sort" id="sortByTodo">
+            </label>
+            <label for="sortByDoing">
+                By Doing Tasks
+                <input type="radio" name="sort" id="sortByDoing">
+            </label>
+            <label for="sortByDone">
+                By Done Tasks
+                <input type="radio" name="sort" id="sortByDone">
+            </label>
+            <button id="sort" class="bg-[#6200ea] mt-2 rounded-lg text-white" onclick="CreateTable(),closeSort()">Sort</button>
         </div>
     </header>
     <table class=" border border-collapse w-full" >
