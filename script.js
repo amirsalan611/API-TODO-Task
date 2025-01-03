@@ -12,8 +12,8 @@ const table = document.getElementById("table-body");
 const editModal = document.getElementById("edit");
 const form = document.getElementById("form");
 const formAlert = document.getElementById("formAlert");
-const filter = document.getElementById("filterIcon") 
-const sortBox = document.getElementById("sort-box")
+const filter = document.getElementById("filterIcon");
+const sortBox = document.getElementById("sort-box");
 
 const baseURL = `https://675f29cb1f7ad2426997bda6.mockapi.io/amirSalan`;
 
@@ -34,7 +34,7 @@ function addTask() {
   const PriorityValue = Priority.value;
   const StatusValue = Status.value;
   const dateValue = date.value;
-  const taskDate = Date.now()
+  const taskDate = Date.now();
   if (
     taskNameValue &&
     taskValue &&
@@ -51,7 +51,7 @@ function addTask() {
         Priority: PriorityValue,
         Status: StatusValue,
         deadline: dateValue,
-        date : taskDate
+        date: taskDate,
       }),
     }).then(() => {
       modal.classList.add("hidden");
@@ -61,7 +61,6 @@ function addTask() {
       Status.value = "default";
       date.value = "none";
 
-      document.getElementById("loading").classList.remove("hidden");
       formAlert.classList.add("hidden");
       form.classList.remove("pt-2");
       nameInp.classList.remove("border-2", "border-red-400");
@@ -89,42 +88,44 @@ document.getElementById("loading").classList.remove("hidden");
 
 filterIcon.addEventListener("click", () => {
   const sortBox = document.querySelector("#sort-box");
-  sortBox.classList.remove("hidden")
+  sortBox.classList.remove("hidden");
   sortBox.classList.toggle("visible");
 });
 
 function closeSort() {
-  sortBox.classList.toggle('visible')
+  sortBox.classList.toggle("visible");
 }
+
 async function CreateTable() {
   try {
+    document.getElementById("loading").classList.remove("hidden");
     table.innerHTML = "";
     const response = await fetch(`${baseURL}/user`);
     const result = await response.json();
 
-    const selectOption = document.querySelector('input[name="sort"]:checked')
+    const selectOption = document.querySelector('input[name="sort"]:checked');
 
-    let tasks = await result ?? []
+    let tasks = (await result) ?? [];
 
     switch (selectOption.id) {
-    case "sortByDate-Oldest":
-      tasks.sort((a, b) => new Date(a.date) - new Date(b.date));
-      break;
-    case "sortByDate-Newest":
-      tasks.sort((a, b) => new Date(b.date) - new Date(a.date));
-      break;
-    case "sortByTodo":
-      tasks = tasks.filter((task) => task.Status === "Todo");
-      break;
-    case "sortByDoing":
-      tasks = tasks.filter((task) => task.Status === "Doing");
-      break;
-    case "sortByDone":
-      tasks = tasks.filter((task) => task.Status === "Done");
-      break;
-  }
+      case "sortByDate-Oldest":
+        tasks.sort((a, b) => new Date(a.date) - new Date(b.date));
+        break;
+      case "sortByDate-Newest":
+        tasks.sort((a, b) => new Date(b.date) - new Date(a.date));
+        break;
+      case "sortByTodo":
+        tasks = tasks.filter((task) => task.Status === "Todo");
+        break;
+      case "sortByDoing":
+        tasks = tasks.filter((task) => task.Status === "Doing");
+        break;
+      case "sortByDone":
+        tasks = tasks.filter((task) => task.Status === "Done");
+        break;
+    }
 
-  console.log(tasks);
+    console.log(tasks);
 
     tasks.forEach((item) => {
       table.innerHTML += `<tr>
@@ -150,8 +151,8 @@ async function CreateTable() {
         }" onclick="read(${item.id})"=>
     </td>
 </tr>`;
-});
-document.getElementById("loading").classList.add("hidden");
+    });
+    document.getElementById("loading").classList.add("hidden");
   } catch {}
 }
 
@@ -179,7 +180,6 @@ function deleteItem(id) {
   fetch(`${baseURL}/user/${id}`, {
     method: "delete",
   }).then(() => {
-    document.getElementById("loading").classList.remove("hidden");
     CreateTable();
   });
 }
@@ -219,7 +219,6 @@ async function edit(id) {
       },
       body: JSON.stringify(updatedTask),
     }).then(() => {
-      document.getElementById("loading").classList.remove("hidden");
       CreateTable();
 
       editModal.classList.add("hidden");
@@ -228,11 +227,18 @@ async function edit(id) {
 }
 
 async function read(id) {
+  document.getElementById("ReadingTaskName").textContent = ""
+  document.getElementById("ReadingTaskValue").textContent = ""
+  document.getElementById("ReadingTaskPriority").textContent = ""
+  document.getElementById("ReadingTaskStatus").textContent = ""
+  document.getElementById("ReadingTaskStatus").textContent = ""
+
   document.getElementById("readTaskBox").classList.remove("hidden");
 
   const response = await fetch(`${baseURL}/user/${id}`);
   const readingTask = await response.json();
   console.log(readingTask);
+
 
   document.getElementById("ReadingTaskName").textContent = readingTask.taskName;
   document.getElementById("ReadingTaskValue").textContent = readingTask.task;
@@ -243,16 +249,16 @@ async function read(id) {
     "ReadingTaskStatus"
   ).textContent = `Status : ${readingTask.Status}`;
   document.getElementById(
-    "ReadingTaskDate"
+    "ReadingTaskStatus"
   ).textContent = `Deadline : ${readingTask.deadline}`;
 
   CloseReadingModal();
 }
 
 function CloseReadingModal() {
-  const folan = document.getElementById("CloseReading");
+  const c = document.getElementById("CloseReading");
 
-  folan.addEventListener("click", () => {
+  c.addEventListener("click", () => {
     document.getElementById("readTaskBox").classList.add("hidden");
   });
 }
